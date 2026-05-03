@@ -6,7 +6,6 @@ client = OpenAI(api_key='')
 
 def _get_valid_movie_ids(query: str, movies: list) -> list[int]:
     movies_context = "\n".join([
-        # 'id' замість 'movieId' — бо саме так надсилає C#
         f"ID:{m['id']} | {m['title']} ({_year(m.get('releaseDate'))}) | "
         f"Rating: {m.get('rating', {}).get('voteAverage', 0):.1f}/10 ({int(m.get('rating', {}).get('voteCount', 0))} votes) | "
         f"Genres: {', '.join(g['name'] for g in m.get('genres', []))} | "
