@@ -1,9 +1,15 @@
 from django.http import HttpResponse
-
+import os
 from openai import OpenAI
 import json
 
-client = OpenAI(api_key="")
+base_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(base_dir, "../../../config.json")
+
+with open(config_path) as f:
+    config = json.load(f)
+
+client = OpenAI(api_key=config["OPENAI_API_KEY"])
 def prompt_parse(user_query: str) -> dict:
 
     response = client.chat.completions.create(

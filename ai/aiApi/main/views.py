@@ -37,7 +37,6 @@ class ParsePromptView(View):
         
         try:
             result = prompt_parse(query)
-            
             if not isinstance(result, dict):
                 return JsonResponse({"error": "Invalid response from AI"}, status=500)
                 

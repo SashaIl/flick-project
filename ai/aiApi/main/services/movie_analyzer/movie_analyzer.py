@@ -1,12 +1,19 @@
 import json
 from openai import OpenAI
 import os
+import json
 
-client = OpenAI(api_key='')
+base_dir = os.path.dirname(os.path.abspath(__file__))
+config_path = os.path.join(base_dir, "../../../config.json")
+
+with open(config_path) as f:
+    config = json.load(f)
+
+
+client = OpenAI(api_key=config["OPENAI_API_KEY"])
 
 def _get_valid_movie_ids(query: str, movies: list) -> list[int]:
     movies_context = "\n".join([
-        # 'id' замість 'movieId' — бо саме так надсилає C#
         f"ID:{m['id']} | {m['title']} ({_year(m.get('releaseDate'))}) | "
         f"Rating: {m.get('rating', {}).get('voteAverage', 0):.1f}/10 ({int(m.get('rating', {}).get('voteCount', 0))} votes) | "
         f"Genres: {', '.join(g['name'] for g in m.get('genres', []))} | "
